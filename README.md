@@ -35,7 +35,12 @@ Code Quality
 
 ## 1. Discuss the purpose of this database in the context of the startup, Sparkify, and their analytical goals.
 
-Service logs are proposed to be stored in a db, so to access them easily: it is propose to store them in a "warehouse", a redshift cluster.
+Service logs are proposed to be stored in a db, so to access them easily: it is propose to store them in a "warehouse", a redshift cluster. To do this these steps are followed:
+
+1. Setup: fill the dwh.cfg to configure the redshift cluster.
+2. create_rs_cluster.ipynb: to create the redshift cluster
+3. create_tables.py: to create the tables on it.
+4. etl.py: insert values in the tables created
 
 ## 2. State and justify your database schema design and ETL pipeline.
 
