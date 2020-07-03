@@ -39,4 +39,6 @@ Service logs are proposed to be stored in a db, so to access them easily: it is 
 
 ## 2. State and justify your database schema design and ETL pipeline.
 
+In this uml class diagram it is approached the start schema proposed.
+
 <img src="http://yuml.me/diagram/plain/class/[songplays|songplay_id;start_time;user_id;level;song_id;artist_id;session_id;location;user_agent]-[Users {bg:orange}| user_id; first_name;last_name;gender;level], [songplays]-[songs {bg:orange}|song_id;title;artist_id;year;duration] , [songplays]-[artists {bg:orange}|artist_id;name;location;latitude;longitude], [songplays]-[time {bg:orange}|start_time;hour;day;week;month;year;weekday]">
