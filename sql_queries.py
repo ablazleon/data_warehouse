@@ -44,7 +44,7 @@ staging_events_table_create = ("""CREATE TABLE IF NOT EXISTS stagingevents (
                 location    VARCHAR                 NULL,
                 method      VARCHAR                 NULL,
                 page        VARCHAR                 NULL,
-                registration VARCHAR                NULL,
+                regipltration VARCHAR                NULL,
                 sessionId   INTEGER                 NOT NULL SORTKEY DISTKEY,
                 song        VARCHAR                 NULL,
                 status      INTEGER                 NULL,
@@ -66,6 +66,17 @@ staging_songs_table_create = ("""CREATE TABLE IF NOT EXISTS stagingsongs (
                 duration            DECIMAL(9)      NULL,
                 year                INTEGER         NULL);""")
 
+songplay_table_create = ("""CREATE TABLE IF NOT EXISTS songplays (
+                songplay_id INTEGER IDENTITY(0,1)   NOT NULL SORTKEY,
+                start_time  TIMESTAMP               NOT NULL,
+                user_id     VARCHAR(50)             NOT NULL DISTKEY,
+                level       VARCHAR(10)             NOT NULL,
+                song_id     VARCHAR(40)             NOT NULL,
+                artist_id   VARCHAR(50)             NOT NULL,
+                session_id  VARCHAR(50)             NOT NULL,
+                location    VARCHAR(100)            NULL,
+                user_agent  VARCHAR(255)            NULL
+    );""")
 
 user_table_create = (""" CREATE TABLE IF NOT EXISTS users (
                 user_id     INTEGER                 NOT NULL SORTKEY,
@@ -142,17 +153,62 @@ songplay_table_insert = ("""INSERT INTO songplays (start_time,
         ON (se.artist = ss.artist_name)
     WHERE se.page = 'NextSong';""")
 
-user_table_insert = ("""
+user_table_insert = ("""INSERT INTO users (user_id,
+                                        first_name,
+                                        last_name,
+                                        gender,
+                                        level)
+    SELECT  DISTINCT se.userId          AS user_id,
+            se.firstName                AS first_name,
+            se.lastName                 AS last_name,
+            se.gender                   AS gender,
+            se.level                    AS level
+    FROM stagingevents AS se
+    WHERE se.page = 'NextSong';""")
+
+song_table_insert = ("""INSERT INTO songs(song_id,
+                                        title,
+                                        artist_id,
+                                        year,
+                                        duration)
+    SELECT  DISTINCT ss.song_id         AS song_id,
+            ss.title                    AS title,
+            ss.artist_id                AS artist_id,
+            ss.year                     AS year,
+            ss.duration                 AS duration
+    FROM stagingsongs AS ss;""")
+
+artist_table_insert = ("""INSERT INTO artists (artist_id,
+                                        name,
+                                        location,
+                                        latitude,
+                                        longitude)
+    SELECT  DISTINCT ss.artist_id       AS artist_id,
+            ss.artist_name              AS name,
+            ss.artist_location          AS location,
+            ss.artist_latitude          AS latitude,
+            ss.artist_longitude         AS longitude
+    FROM stagingsongs AS ss;
 """)
 
-song_table_insert = ("""
-""")
+time_table_insert = ("""INSERT INTO time (start_time,
+                                        hour,
+                                        day,
+                                        week,
+                                        month,
+                                        year,
+                                        weekday)
+    SELECT  DISTINCT TIMESTAMP 'epoch' + se.ts/1000 \
+                * INTERVAL '1 second'        AS start_time,
+            EXTRACT(hour FROM start_time)    AS hour,
+            EXTRACT(day FROM start_time)     AS day,
+            EXTRACT(week FROM start_time)    AS week,
+            EXTRACT(month FROM start_time)   AS month,
+            EXTRACT(year FROM start_time)    AS year,
+            EXTRACT(week FROM start_time)    AS weekday
+    FROM    stagingevents                   AS se
+    WHERE se.page = 'NextSong';""")
 
-artist_table_insert = ("""
-""")
-
-time_table_insert = ("""
-""")
 
 # QUERY LISTS
 

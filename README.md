@@ -40,6 +40,7 @@ Service logs are proposed to be stored in a db, so to access them easily: it is 
 2. connect_rs_cluster.ipynb: to create the redshift cluster
 3. create_tables.py: to create the tables on it.
 4. etl.py: insert values in the tables created
+5. Then the cluster should be closed
 
 ## 2. State and justify your database schema design and ETL pipeline.
 
