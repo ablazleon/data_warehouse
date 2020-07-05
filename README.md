@@ -19,7 +19,6 @@ Table Creation
 - [x] ***Staging tables are properly defined***: CREATE statements in sql_queries.py specify all columns for both the songs and logs staging tables with the right data types and conditions.
 
 - [x] ***Fact and dimensional tables for a star schema are properly defined.***: CREATE statements in sql_queries.py specify all columns for each of the five tables with the right data types and conditions.
-Data Modeling
 
 ETL
 
@@ -37,8 +36,8 @@ Code Quality
 
 Service logs are proposed to be stored in a db, so to access them easily: it is propose to store them in a "warehouse", a redshift cluster. To do this these steps are followed:
 
-1. Setup: fill the dwh.cfg to configure the redshift cluster.
-2. create_rs_cluster.ipynb: to create the redshift cluster
+1. Setup: fill the dwh.cfg to configure the redshift cluster (based on the calss script)
+2. connect_rs_cluster.ipynb: to create the redshift cluster
 3. create_tables.py: to create the tables on it.
 4. etl.py: insert values in the tables created
 
