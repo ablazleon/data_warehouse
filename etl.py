@@ -4,12 +4,26 @@ from sql_queries import copy_table_queries, insert_table_queries
 
 
 def load_staging_tables(cur, conn):
+    """
+    Copy data in staging tables
+    
+    PARAMETERS:
+        cur: postresql cursor
+        conn: connection to the db
+    """
     for query in copy_table_queries:
         cur.execute(query)
         conn.commit()
 
 
 def insert_tables(cur, conn):
+    """
+    The staging values are 
+    
+    PARAMETERS:
+        cur: postresql cursor
+        conn: connection to the db
+    """
     for query in insert_table_queries:
         cur.execute(query)
         conn.commit()
