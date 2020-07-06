@@ -18,7 +18,7 @@ def load_staging_tables(cur, conn):
 
 def insert_tables(cur, conn):
     """
-    The staging values are 
+    The staging values are inserted in tables.
     
     PARAMETERS:
         cur: postresql cursor
